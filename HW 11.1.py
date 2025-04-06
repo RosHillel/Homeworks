@@ -1,21 +1,22 @@
-prime_generator = 11
-numbers = []
+def prime_generator(end):
+    def is_prime(n):
+        if n < 2:
+            return False
+        for i in range(2, int(n ** 0.5) + 1):
+            if n % i == 0:
+                return False
+        return True
 
-for i in range(prime_generator + 1):
-    numbers.append(i)
+    for num in range(2, end + 1):
+        if is_prime(num):
+            yield num
 
 
+from inspect import isgenerator
 
-# Фильтруем только простые числа
-primes = []
-for num in numbers:
-    if num > 1:  # Простые числа начинаются с 2
-        is_prime = True
-        for i in range(2, int(num ** 0.5) + 1):  # Проверка делителей
-            if num % i == 0:
-                is_prime = False
-                break
-        if is_prime:
-            primes.append(num)
-
-print("Простые числа:", primes)
+gen = prime_generator(1)
+assert isgenerator(gen) == True, 'Test0'
+assert list(prime_generator(10)) == [2, 3, 5, 7], 'Test1'
+assert list(prime_generator(15)) == [2, 3, 5, 7, 11, 13], 'Test2'
+assert list(prime_generator(29)) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29], 'Test3'
+print('Ok')
